@@ -122,17 +122,18 @@
             document.getElementById('finalPrice').textContent = `$${finalPrice.toFixed(2)}`;
         }
 
-        // --- ONLOAD INITIALIZATION ---
-        window.onload = function() {
-            // Run initial discount calculation
-            calculateDiscount();
+        // --- INITIALIZATION ---
+        // Run initial discount calculation right away
+        calculateDiscount();
 
-            // Initialize theme based on localStorage or default to dark
-            const savedTheme = localStorage.getItem('theme');
-            // If a theme is saved, use it. Otherwise, default to dark mode.
-            const initialThemeIsDark = savedTheme ? (savedTheme === 'dark') : true;
-            applyTheme(initialThemeIsDark);
-        };
+        // Initialize theme based on saved preference or system settings
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            applyTheme(savedTheme === 'dark');
+        } else {
+            // If no theme is saved, use the system preference
+            applyTheme(window.matchMedia('(prefers-color-scheme: dark)').matches);
+        }
     </script>
 
 </body>
