@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- 'dark' class is now handled by JavaScript to allow persistence -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -24,52 +23,44 @@
         }
     </style>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 flex items-center justify-center min-h-screen transition-colors duration-300">
-
-    <!-- Theme Toggle Button -->
-    <button id="theme-toggle" type="button" class="absolute top-4 right-4 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2">
-        <!-- New Moon Icon (for switching to dark mode) -->
-        <svg id="theme-toggle-dark-icon" class="w-7 h-7 hidden" stroke="currentColor" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
-        <!-- New Sun Icon (for switching to light mode) -->
-        <svg id="theme-toggle-light-icon" class="w-7 h-7 hidden" stroke="currentColor" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-    </button>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen transition-colors duration-300">
 
     <!-- Main calculator card -->
-    <div class="w-full max-w-md mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 md:p-8">
+    <div class="w-full max-w-md mx-auto bg-white rounded-xl shadow-lg p-6 md:p-8">
         
         <header class="mb-6 text-center">
-            <h1 class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-100">Discount Calculator</h1>
-            <p class="text-gray-500 dark:text-gray-400 mt-1">Enter details to see the final price instantly.</p>
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-800">Discount Calculator</h1>
+            <p class="text-gray-500 mt-1">Enter details to see the final price instantly.</p>
         </header>
 
         <!-- Main calculation form -->
         <div class="space-y-4">
             <!-- Original Price Input -->
             <div>
-                <label for="originalPrice" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Original Price ($)</label>
-                <input type="number" id="originalPrice" placeholder="e.g., 150.00" oninput="calculateDiscount()" class="form-input w-full px-4 py-2 text-gray-900 bg-gray-50 border border-gray-300 rounded-lg transition-colors duration-200 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                <label for="originalPrice" class="block text-sm font-medium text-gray-700 mb-1">Original Price ($)</label>
+                <input type="number" id="originalPrice" placeholder="e.g., 150.00" oninput="calculateDiscount()" class="form-input w-full px-4 py-2 text-gray-900 bg-gray-50 border border-gray-300 rounded-lg transition-colors duration-200">
             </div>
 
             <!-- Discount Percentage Input -->
             <div>
-                <label for="discountPercentage" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Discount (%)</label>
-                <input type="number" id="discountPercentage" placeholder="e.g., 25" oninput="calculateDiscount()" class="form-input w-full px-4 py-2 text-gray-900 bg-gray-50 border border-gray-300 rounded-lg transition-colors duration-200 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                <label for="discountPercentage" class="block text-sm font-medium text-gray-700 mb-1">Discount (%)</label>
+                <input type="number" id="discountPercentage" placeholder="e.g., 25" oninput="calculateDiscount()" class="form-input w-full px-4 py-2 text-gray-900 bg-gray-50 border border-gray-300 rounded-lg transition-colors duration-200">
             </div>
         </div>
 
         <!-- Results Section -->
-        <div id="results" class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-600">
-            <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4 text-center">Your Savings</h2>
+        <div id="results" class="mt-8 pt-6 border-t border-gray-200">
+            <h2 class="text-lg font-semibold text-gray-800 mb-4 text-center">Your Savings</h2>
             <div class="space-y-3">
                 <!-- Amount Saved -->
-                <div class="flex justify-between items-center bg-green-50 dark:bg-green-900/50 p-3 rounded-lg">
-                    <span class="text-green-800 dark:text-green-300 font-medium">You Save:</span>
-                    <span id="savedAmount" class="text-lg font-bold text-green-600 dark:text-green-400">$0.00</span>
+                <div class="flex justify-between items-center bg-green-50 p-3 rounded-lg">
+                    <span class="text-green-800 font-medium">You Save:</span>
+                    <span id="savedAmount" class="text-lg font-bold text-green-600">$0.00</span>
                 </div>
                 <!-- Final Price -->
-                <div class="flex justify-between items-center bg-blue-50 dark:bg-blue-900/50 p-4 rounded-lg">
-                    <span class="text-blue-800 dark:text-blue-300 font-bold text-lg">Final Price:</span>
-                    <span id="finalPrice" class="text-2xl font-bold text-blue-600 dark:text-blue-400">$0.00</span>
+                <div class="flex justify-between items-center bg-blue-50 p-4 rounded-lg">
+                    <span class="text-blue-800 font-bold text-lg">Final Price:</span>
+                    <span id="finalPrice" class="text-2xl font-bold text-blue-600">$0.00</span>
                 </div>
             </div>
         </div>
@@ -77,36 +68,6 @@
     </div>
 
     <script>
-        // --- THEME TOGGLE SCRIPT (REBUILT FOR RELIABILITY) ---
-        const themeToggleButton = document.getElementById('theme-toggle');
-        const sunIcon = document.getElementById('theme-toggle-light-icon');
-        const moonIcon = document.getElementById('theme-toggle-dark-icon');
-
-        // Function to update the icons and apply the theme class
-        function applyTheme(isDark) {
-            if (isDark) {
-                document.documentElement.classList.add('dark');
-                sunIcon.classList.remove('hidden'); // In dark mode, show sun icon
-                moonIcon.classList.add('hidden');
-            } else {
-                document.documentElement.classList.remove('dark');
-                sunIcon.classList.add('hidden');
-                moonIcon.classList.remove('hidden'); // In light mode, show moon icon
-            }
-        }
-
-        // Event listener for the toggle button
-        themeToggleButton.addEventListener('click', () => {
-            const isCurrentlyDark = document.documentElement.classList.contains('dark');
-            const newThemeIsDark = !isCurrentlyDark;
-            
-            // Save the user's preference in localStorage
-            localStorage.setItem('theme', newThemeIsDark ? 'dark' : 'light');
-            
-            // Apply the new theme
-            applyTheme(newThemeIsDark);
-        });
-
         // --- DISCOUNT CALCULATION SCRIPT ---
         function calculateDiscount() {
             const priceInput = document.getElementById('originalPrice');
@@ -125,15 +86,6 @@
         // --- INITIALIZATION ---
         // Run initial discount calculation right away
         calculateDiscount();
-
-        // Initialize theme based on saved preference or system settings
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) {
-            applyTheme(savedTheme === 'dark');
-        } else {
-            // If no theme is saved, use the system preference
-            applyTheme(window.matchMedia('(prefers-color-scheme: dark)').matches);
-        }
     </script>
 
 </body>
