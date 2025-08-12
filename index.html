@@ -1,12 +1,16 @@
 <!DOCTYPE html>
-<!-- 'dark' class is now handled by JavaScript to allow persistence -->
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live Discount Calculator</title>
-    <!-- Tailwind CSS for styling -->
+    <!-- Tailwind Play CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+      }
+    </script>
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,14 +29,6 @@
     </style>
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 flex items-center justify-center min-h-screen transition-colors duration-300">
-
-    <!-- Theme Toggle Button -->
-    <button id="theme-toggle" type="button" class="absolute top-4 right-4 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2">
-        <!-- New Moon Icon (for switching to dark mode) -->
-        <svg id="theme-toggle-dark-icon" class="w-7 h-7 hidden" stroke="currentColor" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
-        <!-- New Sun Icon (for switching to light mode) -->
-        <svg id="theme-toggle-light-icon" class="w-7 h-7 hidden" stroke="currentColor" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-    </button>
 
     <!-- Main calculator card -->
     <div class="w-full max-w-md mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 md:p-8">
@@ -77,36 +73,6 @@
     </div>
 
     <script>
-        // --- THEME TOGGLE SCRIPT (REBUILT FOR RELIABILITY) ---
-        const themeToggleButton = document.getElementById('theme-toggle');
-        const sunIcon = document.getElementById('theme-toggle-light-icon');
-        const moonIcon = document.getElementById('theme-toggle-dark-icon');
-
-        // Function to update the icons and apply the theme class
-        function applyTheme(isDark) {
-            if (isDark) {
-                document.documentElement.classList.add('dark');
-                sunIcon.classList.remove('hidden'); // In dark mode, show sun icon
-                moonIcon.classList.add('hidden');
-            } else {
-                document.documentElement.classList.remove('dark');
-                sunIcon.classList.add('hidden');
-                moonIcon.classList.remove('hidden'); // In light mode, show moon icon
-            }
-        }
-
-        // Event listener for the toggle button
-        themeToggleButton.addEventListener('click', () => {
-            const isCurrentlyDark = document.documentElement.classList.contains('dark');
-            const newThemeIsDark = !isCurrentlyDark;
-            
-            // Save the user's preference in localStorage
-            localStorage.setItem('theme', newThemeIsDark ? 'dark' : 'light');
-            
-            // Apply the new theme
-            applyTheme(newThemeIsDark);
-        });
-
         // --- DISCOUNT CALCULATION SCRIPT ---
         function calculateDiscount() {
             const priceInput = document.getElementById('originalPrice');
@@ -125,15 +91,6 @@
         // --- INITIALIZATION ---
         // Run initial discount calculation right away
         calculateDiscount();
-
-        // Initialize theme based on saved preference or system settings
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) {
-            applyTheme(savedTheme === 'dark');
-        } else {
-            // If no theme is saved, use the system preference
-            applyTheme(window.matchMedia('(prefers-color-scheme: dark)').matches);
-        }
     </script>
 
 </body>
