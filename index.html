@@ -62,6 +62,20 @@
                     <span class="text-green-400 font-bold text-lg">Final Price:</span>
                     <span id="finalPrice" class="text-2xl font-bold text-green-400">$0.00</span>
                 </div>
+
+                <!-- Final Price + Tax -->
+                <div class="flex justify-between items-center bg-purple-500/10 p-4 rounded-lg mt-3">
+                    <span class="text-purple-400 font-bold text-lg">Final Price + tax:</span>
+                    <span id="finalPriceWithTax" class="text-2xl font-bold text-purple-400">$0.00</span>
+                </div>
+
+                <!-- Province Selector -->
+                <div class="flex justify-between items-center mt-4">
+                    <label for="provinceSelector" class="text-slate-300 font-medium">Province:</label>
+                    <select id="provinceSelector" class="form-input w-1/2 px-4 py-2 text-slate-100 bg-slate-700 border border-slate-600 rounded-lg">
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                </div>
             </div>
         </div>
 
@@ -81,9 +95,50 @@
             const finalPrice = originalPrice - savedAmount;
             document.getElementById('savedAmount').textContent = `$${savedAmount.toFixed(2)}`;
             document.getElementById('finalPrice').textContent = `$${finalPrice.toFixed(2)}`;
+            calculateFinalPriceWithTax();
+        }
+
+        function calculateFinalPriceWithTax() {
+            const finalPriceText = document.getElementById('finalPrice').textContent;
+            const finalPrice = parseFloat(finalPriceText.replace('$', '')) || 0;
+            const selectedProvince = document.getElementById('provinceSelector').value;
+            const taxRate = provinceTaxRates[selectedProvince];
+            const finalPriceWithTax = finalPrice * (1 + taxRate);
+            document.getElementById('finalPriceWithTax').textContent = `$${finalPriceWithTax.toFixed(2)}`;
+        }
+
+        // --- TAX DATA AND PROVINCE POPULATION ---
+        const provinceTaxRates = {
+            'Alberta': 0.05,
+            'British Columbia': 0.12,
+            'Manitoba': 0.12,
+            'New Brunswick': 0.15,
+            'Newfoundland and Labrador': 0.15,
+            'Northwest Territories': 0.05,
+            'Nova Scotia': 0.15,
+            'Nunavut': 0.05,
+            'Ontario': 0.13,
+            'Prince Edward Island': 0.15,
+            'Quebec': 0.14975,
+            'Saskatchewan': 0.11,
+            'Yukon': 0.05
+        };
+
+        function populateProvinces() {
+            const selector = document.getElementById('provinceSelector');
+            for (const province in provinceTaxRates) {
+                const option = document.createElement('option');
+                option.value = province;
+                option.textContent = province;
+                selector.appendChild(option);
+            }
         }
 
         // --- INITIALIZATION ---
+        // Add event listener for province selector
+        document.getElementById('provinceSelector').addEventListener('change', calculateFinalPriceWithTax);
+        // Populate provinces on load
+        populateProvinces();
         // Run initial discount calculation right away
         calculateDiscount();
     </script>
