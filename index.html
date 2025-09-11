@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Discount Calculator</title>
+    <title>Pixelvin Discount Calculator</title>
     <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Inter -->
@@ -30,7 +30,6 @@
         
         <header class="mb-6 text-center">
             <h1 class="text-2xl md:text-3xl font-bold text-slate-100">Discount Calculator</h1>
-            <p class="text-slate-400 mt-1">makes my life easier</p>
         </header>
 
         <!-- Main calculation form -->
@@ -50,22 +49,21 @@
 
         <!-- Results Section -->
         <div id="results" class="mt-8 pt-6 border-t border-slate-700">
-            <h2 class="text-lg font-semibold text-slate-100 mb-4 text-center">Your Savings</h2>
             <div class="space-y-3">
                 <!-- Amount Saved -->
-                <div class="flex justify-between items-center bg-green-500/10 p-3 rounded-lg">
+                <div class="flex justify-between items-center bg-blue-500/10 p-3 rounded-lg">
                     <span class="text-blue-400 font-medium">You Save:</span>
-                    <span id="savedAmount" class="text-lg font-bold text-blue-400">$0.00</span>
+                    <span id="savedAmount" class="text-2xl font-bold text-blue-400">$0.00</span>
                 </div>
                 <!-- Final Price -->
-                <div class="flex justify-between items-center bg-blue-500/10 p-4 rounded-lg">
-                    <span class="text-green-400 font-bold text-lg">Final Price:</span>
+                <div class="flex justify-between items-center bg-blue-500/10 p-3 rounded-lg">
+                    <span class="text-green-400 font-medium">Final Price:</span>
                     <span id="finalPrice" class="text-2xl font-bold text-green-400">$0.00</span>
                 </div>
 
                 <!-- Final Price + Tax -->
-                <div class="flex justify-between items-center bg-purple-500/10 p-4 rounded-lg mt-3">
-                    <span class="text-purple-400 font-bold text-lg">Final Price + tax:</span>
+                <div class="flex justify-between items-center bg-blue-500/10 p-4 rounded-lg mt-3">
+                    <span class="text-purple-400 font-medium">+ Tax:</span>
                     <span id="finalPriceWithTax" class="text-2xl font-bold text-purple-400">$0.00</span>
                 </div>
 
