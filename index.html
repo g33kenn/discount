@@ -50,16 +50,6 @@
         <!-- Results Section -->
         <div id="results" class="mt-8 pt-6 border-t border-slate-700">
             <div class="space-y-3">
-                <!-- Amount Saved -->
-                <div class="flex justify-between items-center bg-blue-500/10 p-3 rounded-lg">
-                    <span class="text-blue-400 font-medium">You Save:</span>
-                    <span id="savedAmount" class="text-2xl font-bold text-blue-400">$0.00</span>
-                </div>
-                <!-- Final Price -->
-                <div class="flex justify-between items-center bg-blue-500/10 p-3 rounded-lg">
-                    <span class="text-green-400 font-medium">Final Price:</span>
-                    <span id="finalPrice" class="text-2xl font-bold text-green-400">$0.00</span>
-                </div>
 
                 <!-- Final Price + Tax -->
                 <div class="flex justify-between items-center bg-blue-500/10 p-4 rounded-lg mt-3">
@@ -85,9 +75,18 @@
 
     </div>
 
+    <!-- Footer -->
+    <footer class="w-full max-w-md mx-auto text-center text-slate-400 text-sm mt-4">
+        <p>CAD to EUR conversion rate: <span id="conversionRate"></span></p>
+    </footer>
+
     <script>
         // --- DISCOUNT CALCULATION SCRIPT ---
         function calculateDiscount() {
+            calculateFinalPriceWithTax();
+        }
+
+        function calculateFinalPriceWithTax() {
             const priceInput = document.getElementById('originalPrice');
             const discountInput = document.getElementById('discountPercentage');
             let originalPrice = parseFloat(priceInput.value) || 0;
@@ -97,14 +96,7 @@
             if (discountPercentage > 100) { discountPercentage = 100; discountInput.value = 100; }
             const savedAmount = originalPrice * (discountPercentage / 100);
             const finalPrice = originalPrice - savedAmount;
-            document.getElementById('savedAmount').textContent = `$${savedAmount.toFixed(2)}`;
-            document.getElementById('finalPrice').textContent = `$${finalPrice.toFixed(2)}`;
-            calculateFinalPriceWithTax();
-        }
 
-        function calculateFinalPriceWithTax() {
-            const finalPriceText = document.getElementById('finalPrice').textContent;
-            const finalPrice = parseFloat(finalPriceText.replace('$', '')) || 0;
             const selectedProvince = document.getElementById('provinceSelector').value;
             const taxRate = provinceTaxRates[selectedProvince];
             const finalPriceWithTax = finalPrice * (1 + taxRate);
@@ -113,7 +105,7 @@
         }
 
         // --- CAD to EUR Conversion ---
-        const CAD_TO_EUR_RATE = 0.68; // NOTE: This is a placeholder exchange rate.
+        const CAD_TO_EUR_RATE = 0.62; // NOTE: This is a placeholder exchange rate.
         function calculateFinalPriceWithTaxEUR() {
             const finalPriceWithTaxText = document.getElementById('finalPriceWithTax').textContent;
             const finalPriceWithTaxCAD = parseFloat(finalPriceWithTaxText.replace('$', '')) || 0;
@@ -158,6 +150,8 @@
         populateProvinces();
         // Run initial discount calculation right away
         calculateDiscount();
+        // Set the conversion rate in the footer
+        document.getElementById('conversionRate').textContent = CAD_TO_EUR_RATE;
     </script>
 
 </body>
