@@ -69,7 +69,7 @@
 
                 <!-- Final Price + Tax in EUR -->
                 <div class="flex justify-between items-center bg-blue-500/10 p-4 rounded-lg mt-3">
-                    <span class="text-indigo-400 font-medium">+ Tax (EUR):</span>
+                    <span class="text-slate-100 font-medium">+ Tax (EUR):</span>
                     <span id="finalPriceWithTaxEUR" class="text-2xl font-bold text-indigo-400">€0.00</span>
                 </div>
 
@@ -144,6 +144,9 @@
                 const option = document.createElement('option');
                 option.value = province;
                 option.textContent = province;
+                if (province === 'Ontario') {
+                    option.selected = true;
+                }
                 selector.appendChild(option);
             }
         }
