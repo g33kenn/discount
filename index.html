@@ -63,8 +63,14 @@
 
                 <!-- Final Price + Tax -->
                 <div class="flex justify-between items-center bg-blue-500/10 p-4 rounded-lg mt-3">
-                    <span class="text-purple-400 font-medium">+ Tax:</span>
+                    <span class="text-purple-400 font-medium">+ Tax (CAD):</span>
                     <span id="finalPriceWithTax" class="text-2xl font-bold text-purple-400">$0.00</span>
+                </div>
+
+                <!-- Final Price + Tax in EUR -->
+                <div class="flex justify-between items-center bg-blue-500/10 p-4 rounded-lg mt-3">
+                    <span class="text-indigo-400 font-medium">+ Tax (EUR):</span>
+                    <span id="finalPriceWithTaxEUR" class="text-2xl font-bold text-indigo-400">€0.00</span>
                 </div>
 
                 <!-- Province Selector -->
@@ -103,6 +109,16 @@
             const taxRate = provinceTaxRates[selectedProvince];
             const finalPriceWithTax = finalPrice * (1 + taxRate);
             document.getElementById('finalPriceWithTax').textContent = `$${finalPriceWithTax.toFixed(2)}`;
+            calculateFinalPriceWithTaxEUR(); // Also update the EUR value
+        }
+
+        // --- CAD to EUR Conversion ---
+        const CAD_TO_EUR_RATE = 0.68; // NOTE: This is a placeholder exchange rate.
+        function calculateFinalPriceWithTaxEUR() {
+            const finalPriceWithTaxText = document.getElementById('finalPriceWithTax').textContent;
+            const finalPriceWithTaxCAD = parseFloat(finalPriceWithTaxText.replace('$', '')) || 0;
+            const finalPriceWithTaxEUR = finalPriceWithTaxCAD * CAD_TO_EUR_RATE;
+            document.getElementById('finalPriceWithTaxEUR').textContent = `€${finalPriceWithTaxEUR.toFixed(2)}`;
         }
 
         // --- TAX DATA AND PROVINCE POPULATION ---
