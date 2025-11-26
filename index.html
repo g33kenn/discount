@@ -3,120 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pixelvin Discount Calculator</title>
-    <!-- Tailwind CSS for styling -->
+    <title>Premium Discount Calculator</title>
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* Use the Inter font family */
-        body {
-            font-family: 'Inter', sans-serif;
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind Configuration for Custom Colors/Fonts -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        slate: {
+                            850: '#1e293b',
+                            950: '#020617',
+                        }
+                    }
+                }
+            }
         }
-        /* Custom focus style for better visibility */
-        .form-input:focus {
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.4);
-            border-color: #3b82f6;
+    </script>
+
+    <style>
+        /* Custom aesthetics */
+        body {
+            background-color: #0f172a; /* Fallback */
+            background-image: radial-gradient(circle at 50% 0%, #1e293b 0%, #020617 75%);
+        }
+        
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Hide number input spinners */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
         }
     </style>
 </head>
-<body class="bg-slate-900 flex items-center justify-center min-h-screen">
+<body class="text-slate-200 min-h-screen flex items-center justify-center p-4">
 
-    <!-- Main calculator card -->
-    <div class="w-full max-w-md mx-auto bg-slate-800 rounded-xl shadow-lg p-6 md:p-8">
-
-    <!-- masking header
-        <header class="mb-6 text-center">
-            <h1 class="text-2xl md:text-3xl font-bold text-slate-100">Discount Calculator</h1>
-        </header>
-
-    -->
-
-        <!-- Main calculation form -->
-        <div class="space-y-4">
-            <!-- Original Price Input -->
-            <div>
-                <label for="originalPrice" class="block text-sm font-medium text-slate-300 mb-1">Original Price ($)</label>
-                <input type="number" id="originalPrice" placeholder="e.g., 150.00" oninput="calculateDiscount()" class="form-input w-full px-4 py-2 text-slate-100 bg-slate-700 border border-slate-600 rounded-lg">
-            </div>
-
-            <!-- Discount Percentage Input -->
-            <div>
-                <label for="discountPercentage" class="block text-sm font-medium text-slate-300 mb-1">Discount (%)</label>
-                <input type="number" id="discountPercentage" placeholder="e.g., 25" oninput="calculateDiscount()" class="form-input w-full px-4 py-2 text-slate-100 bg-slate-700 border border-slate-600 rounded-lg">
-            </div>
+    <!-- Main Container -->
+    <div class="w-full max-w-lg">
+        
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">
+                Discount Calculator
+            </h1>
+            <p class="text-slate-500 text-sm mt-2">Calculate savings & tax instantly</p>
         </div>
 
-        <!-- Results Section -->
-        <div id="results" class="mt-8 pt-6 border-t border-slate-700">
-            <div class="space-y-3">
+        <!-- Calculator Card -->
+        <div class="glass-panel rounded-2xl shadow-2xl overflow-hidden">
+            
+            <div class="p-6 md:p-8 space-y-6">
+                
+                <!-- Input Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                    <!-- Original Price -->
+                    <div class="space-y-2">
+                        <label for="originalPrice" class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Original Price</label>
+                        <div class="relative group">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <span class="text-slate-500 group-focus-within:text-blue-400 transition-colors">$</span>
+                            </div>
+                            <input type="number" id="originalPrice" placeholder="0.00" oninput="calculateDiscount()" 
+                                class="w-full bg-slate-900/50 border border-slate-700 text-white text-lg rounded-xl focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 block w-full pl-8 p-3 transition-all outline-none placeholder-slate-600">
+                        </div>
+                    </div>
 
-                <!-- Final Price + Tax -->
-                <div class="flex justify-between items-center bg-blue-500/10 p-4 rounded-lg mt-3">
-                    <span class="text-green-400 font-medium">+ Tax (CAD):</span>
-                    <span id="finalPriceWithTax" class="text-2xl font-bold text-green-400">$0.00</span>
-                </div>
-
-                <!-- Final Price + Tax in EUR -->
-                <div class="flex justify-between items-center bg-blue-500/10 p-4 rounded-lg mt-3">
-                    <span class="text-slate-100 font-medium">+ Tax (EUR):</span>
-                    <span id="finalPriceWithTaxEUR" class="text-2xl font-bold text-slate-400">€0.00</span>
+                    <!-- Discount Percentage -->
+                    <div class="space-y-2">
+                        <label for="discountPercentage" class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Discount</label>
+                        <div class="relative group">
+                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                <span class="text-slate-500 group-focus-within:text-blue-400 transition-colors">%</span>
+                            </div>
+                            <input type="number" id="discountPercentage" placeholder="0" oninput="calculateDiscount()" 
+                                class="w-full bg-slate-900/50 border border-slate-700 text-white text-lg rounded-xl focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 block w-full p-3 pr-8 transition-all outline-none placeholder-slate-600">
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Province Selector -->
-                <div class="flex justify-between items-center mt-4">
-                    <label for="provinceSelector" class="text-slate-300 font-medium">Province:</label>
-                    <select id="provinceSelector" class="form-input w-1/2 px-4 py-2 text-slate-100 bg-slate-700 border border-slate-600 rounded-lg">
-                        <!-- Options will be populated by JavaScript -->
-                    </select>
+                <div class="space-y-2">
+                    <label for="provinceSelector" class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Province / Territory</label>
+                    <div class="relative">
+                        <select id="provinceSelector" class="w-full bg-slate-900/50 border border-slate-700 text-slate-200 text-base rounded-xl focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 block w-full p-3 appearance-none transition-all outline-none cursor-pointer">
+                            <!-- Options populated by JS -->
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500">
+                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Displaying the conversion rate -->
-                <div class="w-full max-w-md mx-auto text-center text-slate-400 text-sm mt-4">
-                    <p>CAD to EUR conversion rate: <span id="conversionRate"></span></p>
+                <!-- Divider -->
+                <div class="h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent"></div>
+
+                <!-- Results Area -->
+                <div class="bg-slate-900/60 rounded-xl p-6 border border-slate-800/50 relative overflow-hidden">
+                    <!-- Glow effect behind numbers -->
+                    <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-blue-500/10 blur-2xl rounded-full pointer-events-none"></div>
+
+                    <div class="flex flex-col space-y-4 relative z-10">
+                        
+                        <!-- CAD Result -->
+                        <div class="flex justify-between items-end">
+                            <span class="text-slate-400 text-sm font-medium mb-1">Total (CAD)</span>
+                            <div class="text-right">
+                                <span id="finalPriceWithTax" class="text-4xl font-bold text-white tracking-tight">$0.00</span>
+                                <div class="text-xs text-emerald-500 font-medium mt-1">Includes Tax</div>
+                            </div>
+                        </div>
+
+                        <!-- EUR Result -->
+                        <div class="flex justify-between items-end pt-2 border-t border-slate-800">
+                            <span class="text-slate-500 text-sm font-medium">Approx. in EUR</span>
+                            <span id="finalPriceWithTaxEUR" class="text-xl font-semibold text-slate-400">€0.00</span>
+                        </div>
+                        
+                    </div>
                 </div>
+
+            </div>
+
+            <!-- Footer Info -->
+            <div class="bg-slate-950/30 p-4 text-center border-t border-slate-800/50">
+                <p class="text-xs text-slate-600 font-medium">
+                    Exchange Rate: 1 CAD ≈ <span id="conversionRate" class="text-slate-500">0.62</span> EUR
+                </p>
             </div>
         </div>
-
     </div>
 
+    <!-- Logic Script -->
     <script>
-        // --- DISCOUNT CALCULATION SCRIPT ---
-        function calculateDiscount() {
-            calculateFinalPriceWithTax();
-        }
-
-        function calculateFinalPriceWithTax() {
-            const priceInput = document.getElementById('originalPrice');
-            const discountInput = document.getElementById('discountPercentage');
-            let originalPrice = parseFloat(priceInput.value) || 0;
-            let discountPercentage = parseFloat(discountInput.value) || 0;
-            if (originalPrice < 0) { originalPrice = 0; priceInput.value = 0; }
-            if (discountPercentage < 0) { discountPercentage = 0; discountInput.value = 0; }
-            if (discountPercentage > 100) { discountPercentage = 100; discountInput.value = 100; }
-            const savedAmount = originalPrice * (discountPercentage / 100);
-            const finalPrice = originalPrice - savedAmount;
-
-            const selectedProvince = document.getElementById('provinceSelector').value;
-            const taxRate = provinceTaxRates[selectedProvince];
-            const finalPriceWithTax = finalPrice * (1 + taxRate);
-            document.getElementById('finalPriceWithTax').textContent = `$${finalPriceWithTax.toFixed(2)}`;
-            calculateFinalPriceWithTaxEUR(); // Also update the EUR value
-        }
-
-        // --- CAD to EUR Conversion ---
-        const CAD_TO_EUR_RATE = 0.62; // NOTE: This is a placeholder exchange rate.
-        function calculateFinalPriceWithTaxEUR() {
-            const finalPriceWithTaxText = document.getElementById('finalPriceWithTax').textContent;
-            const finalPriceWithTaxCAD = parseFloat(finalPriceWithTaxText.replace('$', '')) || 0;
-            const finalPriceWithTaxEUR = finalPriceWithTaxCAD * CAD_TO_EUR_RATE;
-            document.getElementById('finalPriceWithTaxEUR').textContent = `€${finalPriceWithTaxEUR.toFixed(2)}`;
-        }
-
-        // --- TAX DATA AND PROVINCE POPULATION ---
+        // --- DATA & CONFIG ---
         const provinceTaxRates = {
             'Alberta': 0.05,
             'British Columbia': 0.12,
@@ -133,29 +174,95 @@
             'Yukon': 0.05
         };
 
+        const CAD_TO_EUR_RATE = 0.62;
+
+        // --- DOM ELEMENTS ---
+        const els = {
+            originalPrice: document.getElementById('originalPrice'),
+            discountPercentage: document.getElementById('discountPercentage'),
+            provinceSelector: document.getElementById('provinceSelector'),
+            finalPriceCAD: document.getElementById('finalPriceWithTax'),
+            finalPriceEUR: document.getElementById('finalPriceWithTaxEUR'),
+            conversionRate: document.getElementById('conversionRate')
+        };
+
+        // --- FUNCTIONS ---
+
         function populateProvinces() {
-            const selector = document.getElementById('provinceSelector');
+            els.provinceSelector.innerHTML = ''; // Clear existing to prevent duplicates
+            
             for (const province in provinceTaxRates) {
                 const option = document.createElement('option');
                 option.value = province;
                 option.textContent = province;
+                // Default to Ontario (User is in Toronto)
                 if (province === 'Ontario') {
                     option.selected = true;
                 }
-                selector.appendChild(option);
+                els.provinceSelector.appendChild(option);
             }
         }
 
-        // --- INITIALIZATION ---
-        // Add event listener for province selector
-        document.getElementById('provinceSelector').addEventListener('change', calculateFinalPriceWithTax);
-        // Populate provinces on load
-        populateProvinces();
-        // Run initial discount calculation right away
-        calculateDiscount();
-        // Set the conversion rate in the footer
-        document.getElementById('conversionRate').textContent = CAD_TO_EUR_RATE;
-    </script>
+        function calculateValues() {
+            // 1. Get Inputs
+            let originalPrice = parseFloat(els.originalPrice.value) || 0;
+            let discount = parseFloat(els.discountPercentage.value) || 0;
 
+            // 2. Input Validation (Clamping)
+            if (originalPrice < 0) { 
+                originalPrice = 0; 
+                els.originalPrice.value = 0; 
+            }
+            if (discount < 0) { 
+                discount = 0; 
+                els.discountPercentage.value = 0; 
+            }
+            if (discount > 100) { 
+                discount = 100; 
+                els.discountPercentage.value = 100; 
+            }
+
+            // 3. Calculate Discount
+            const savedAmount = originalPrice * (discount / 100);
+            const priceAfterDiscount = originalPrice - savedAmount;
+
+            // 4. Calculate Tax
+            const selectedProvince = els.provinceSelector.value;
+            const taxRate = provinceTaxRates[selectedProvince] || 0;
+            const finalCAD = priceAfterDiscount * (1 + taxRate);
+
+            // 5. Convert to EUR
+            const finalEUR = finalCAD * CAD_TO_EUR_RATE;
+
+            // 6. Update UI
+            els.finalPriceCAD.textContent = formatCurrency(finalCAD, '$');
+            els.finalPriceEUR.textContent = formatCurrency(finalEUR, '€');
+        }
+
+        // Helper for currency formatting
+        function formatCurrency(amount, symbol) {
+            return `${symbol}${amount.toLocaleString('en-CA', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        }
+
+        // Wrapper for the event listener
+        function calculateDiscount() {
+            calculateValues();
+        }
+
+        // --- INITIALIZATION ---
+        populateProvinces();
+        
+        // Add listeners
+        els.originalPrice.addEventListener('input', calculateValues);
+        els.discountPercentage.addEventListener('input', calculateValues);
+        els.provinceSelector.addEventListener('change', calculateValues);
+
+        // Set static conversion rate text
+        els.conversionRate.textContent = CAD_TO_EUR_RATE;
+
+        // Run once on load
+        calculateValues();
+
+    </script>
 </body>
 </html>
